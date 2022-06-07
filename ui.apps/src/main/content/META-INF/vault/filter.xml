@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/testaem/clientlibs"/>
+    <filter root="/apps/testaem/components"/>
+    <filter root="/apps/testaem/i18n"/>
+</workspaceFilter>

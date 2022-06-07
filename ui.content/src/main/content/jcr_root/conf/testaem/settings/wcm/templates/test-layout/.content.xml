@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Template">
+    <jcr:content
+        cq:lastModified="{Date}2022-06-02T19:47:09.685+03:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2022-06-02T19:37:55.294+03:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:templateType="/conf/testaem/settings/wcm/template-types/page"
+        jcr:description="Layout for education"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Test layout"
+        status="enabled"/>
+</jcr:root>
