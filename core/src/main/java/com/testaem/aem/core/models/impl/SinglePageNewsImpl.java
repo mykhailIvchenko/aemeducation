@@ -8,14 +8,15 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-@Model(adaptables = Resource.class ,defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, adapters = NewsPage.class)
+
+@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, adapters = NewsPage.class)
 public class SinglePageNewsImpl implements NewsPage {
 
     @ValueMapValue
     private String textHTML;
     @ValueMapValue
     private String text;
-    @ValueMapValue(name="image")
+    @ValueMapValue(name = "image")
     private String imagePath;
     @ValueMapValue
     private Date date;
