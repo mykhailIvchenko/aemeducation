@@ -9,17 +9,27 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, adapters = NewsPage.class)
+@Model(
+        adaptables = Resource.class,
+        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL,
+        adapters = NewsPage.class
+)
 public class SinglePageNewsImpl implements NewsPage {
+
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @ValueMapValue
     private String textHTML;
+
     @ValueMapValue
     private String text;
+
     @ValueMapValue(name = "image")
     private String imagePath;
+
     @ValueMapValue
     private Date date;
+
 
     @Override
     public String getTextHTML() {
@@ -38,8 +48,6 @@ public class SinglePageNewsImpl implements NewsPage {
 
     @Override
     public String getDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         return this.date == null ? simpleDateFormat.format(new Date()) : simpleDateFormat.format(date);
     }
 }

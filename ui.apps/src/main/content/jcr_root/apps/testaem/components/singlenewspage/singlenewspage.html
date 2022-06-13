@@ -1,17 +1,18 @@
 <div class="cmp-singlePage" data-cmp-is="singlePage"
-     data-sly-use.singlePage="com.testaem.aem.core.models.impl.SinglePageNewsImpl">
+     data-sly-use.singlePage="com.testaem.aem.core.models.NewsPage">
     <div class="cmp-singlePage__item">
         <img src="${singlePage.imagePath}" alt="page icon" width="100" height="100"/>
     </div>
 
-    <div class="cmp-singlePage__Title">
-        <pre class="cmp-singlePage__item-output" data-cmp-hook-singlePage="singlePage">${singlePage.text}</pre>
+    <div class="cmp-singlePage__title">
+        <div class="cmp-singlePage__item-output" data-cmp-hook-singlePage_title="singlePage">${singlePage.text}</div>
     </div>
     <div class="cmp-singlePage-html">
-        <pre class="cmp-singlePage__item-output" data-cmp-hook-singlePage="singlePage">${singlePage.textHTML @ context='html'}</pre>
+        <div class="cmp-singlePage__item-output"
+             data-cmp-hook-singlePage__html="singlePage">${singlePage.textHTML @ context='html'}</div>
     </div>
     <div class="cmd-singlePage-date">
-        <pre class="cmp-singlePage__item-output"
-             data-cmp-hook-singlePage="singlePage">${singlePage.date}</pre>
+        <div class="cmp-singlePage__item-output"
+             data-cmp-hook-singlePage_date="singlePage">${singlePage.date }</div>
     </div>
 </div>

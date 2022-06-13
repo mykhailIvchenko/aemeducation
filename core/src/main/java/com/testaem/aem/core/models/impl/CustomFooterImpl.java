@@ -6,15 +6,17 @@ import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, adapters = CustomFooter.class)
+@Model(
+        adaptables = Resource.class,
+        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL,
+        adapters = CustomFooter.class
+)
 public class CustomFooterImpl implements CustomFooter {
-
-    static final String RESOURCE_TYPE = "testaem/components/customfooter";
 
     @ValueMapValue
     private String text;
 
-    // @Override
+    @Override
     public String getText() {
         return text;
     }
