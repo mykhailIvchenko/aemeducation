@@ -44,6 +44,7 @@
                         <configuration>
                             <bnd><![CDATA[
 Import-Package: javax.annotation;version=0.0.0,*
+Export-Package: org.jsoup.*;version=1.12.2
                                 ]]></bnd>
                         </configuration>
                     </execution>
@@ -216,6 +217,12 @@ Import-Package: javax.annotation;version=0.0.0,*
             <artifactId>biz.aQute.bndlib</artifactId>
             <version>3.5.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.2</version>
+            <!--<scope>provided</scope>-->
         </dependency>
     </dependencies>
 </project>

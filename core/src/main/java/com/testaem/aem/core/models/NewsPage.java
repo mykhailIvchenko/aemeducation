@@ -5,4 +5,8 @@ public interface NewsPage {
     String getText();
     String getImagePath();
     String getDate();
+
+    String getPagePath();
+
+    String getTruncatedText();
 }

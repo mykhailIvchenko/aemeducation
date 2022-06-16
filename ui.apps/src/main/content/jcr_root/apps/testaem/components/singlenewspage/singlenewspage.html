@@ -1,5 +1,6 @@
 <div class="cmp-singlePage" data-cmp-is="singlePage"
-     data-sly-use.singlePage="com.testaem.aem.core.models.NewsPage">
+     data-sly-use.singlePage="com.testaem.aem.core.models.NewsPage"
+     data-sly-use.loadButton="${'testaem/htltemplates/button/button.html'}">
     <div class="cmp-singlePage__item">
         <img src="${singlePage.imagePath}" alt="page icon" width="100" height="100"/>
     </div>
@@ -9,10 +10,12 @@
     </div>
     <div class="cmp-singlePage-html">
         <div class="cmp-singlePage__item-output"
-             data-cmp-hook-singlePage__html="singlePage">${singlePage.textHTML @ context='html'}</div>
+             data-cmp-hook-singlePage__html="singlePage">${singlePage.truncatedText @ context='html'}</div>
     </div>
     <div class="cmd-singlePage-date">
         <div class="cmp-singlePage__item-output"
              data-cmp-hook-singlePage_date="singlePage">${singlePage.date }</div>
     </div>
+
+    <sly data-sly-call="${loadButton.template @ href = singlePage.pagePath, tag='a', title = request.requestPathInfo.selectors[0] == 'fullPage' ?  'Full page' : 'Back'}"></sly>
 </div>
