@@ -5,5 +5,4 @@ import java.util.List;
 public interface MultipleNews {
     List<String> getResourcesPaths();
 
-    Integer limit();
 }

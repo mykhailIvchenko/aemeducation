@@ -16,6 +16,7 @@
         <div class="cmp-singlePage__item-output"
              data-cmp-hook-singlePage_date="singlePage">${singlePage.date }</div>
     </div>
+<sly data-sly-set.pathToParentPage="${singlePage.pagePath @ suffix = singlePage.suffix}"></sly>
 
-    <sly data-sly-call="${loadButton.template @ href = singlePage.pagePath, tag='a', title = request.requestPathInfo.selectors[0] == 'fullPage' ?  'Full page' : 'Back'}"></sly>
+    <sly data-sly-call="${loadButton.template @ href = pathToParentPage, tag='a', title = request.requestPathInfo.selectors[0] == 'fullPage' ?  'Full page' : 'Back'}"></sly>
 </div>

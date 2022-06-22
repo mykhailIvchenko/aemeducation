@@ -4,7 +4,7 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.testaem.aem.core.models.NewsPage;
 import com.testaem.aem.core.utills.impl.HTMLTruncator;
-import com.testaem.aem.core.utills.Truncator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SinglePageNewsImpl implements NewsPage {
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private Truncator htmlTruncator = new HTMLTruncator();
+    private final HTMLTruncator htmlTruncator = new HTMLTruncator();
 
     @ValueMapValue
     private String textHTML;
@@ -44,52 +44,6 @@ public class SinglePageNewsImpl implements NewsPage {
 
     @Self
     private SlingHttpServletRequest request;
-
-    public static String truncate1(String input, int size) {
-        if (input.length() < size) return input;
-
-        int pos = input.lastIndexOf('>', size);
-        int pos2 = input.indexOf('<', pos);
-
-        if (pos2 < 0 || pos2 >= size) {
-            return input.substring(0, size);
-        } else {
-            return input.substring(0, pos2);
-        }
-    }
-
-    private static String truncate(String input, int size) {
-        if (input.length() < size) return input;
-
-        int lastTagStart = 0;
-        boolean inString = false;
-        boolean inTag = false;
-
-        for (int pos = 0; pos < size; pos++) {
-            switch (input.charAt(pos)) {
-                case '<':
-                    if (!inString && !inTag) {
-                        lastTagStart = pos;
-                        inTag = true;
-                    }
-                    break;
-                case '>':
-                    if (!inString) inTag = false;
-                    break;
-                case '\"':
-                    if (inTag) inString = !inString;
-                    break;
-            }
-        }
-        if (!inTag) lastTagStart = size;
-        return input.substring(0, lastTagStart);
-    }
-
-    @PostConstruct
-    private void init() {
-
-        truncatedText = htmlTruncator.truncate(textHTML, 20);
-    }
 
     @Override
     public String getTextHTML() {
@@ -115,19 +69,40 @@ public class SinglePageNewsImpl implements NewsPage {
 
         List<String> selectors = Arrays.asList(request.getRequestPathInfo().getSelectors());
 
-        boolean fullPage = selectors.contains("fullPage");
+        boolean isFromGrid = selectors.contains("fromGrid");
 
         PageManager pageManager = request.getResourceResolver().adaptTo(PageManager.class);
-        Page containingPage = pageManager.getContainingPage(request.getResource());
-        ;
-        Page landingPage = containingPage.getParent(2);
 
-        String path = fullPage ? containingPage.getPath() : landingPage.getPath();
+        Page containingPage = pageManager.getContainingPage(request.getResource());
+
+        String suffix = request.getRequestPathInfo().getSuffix();
+
+        Page landingPage = null;
+
+        if(!StringUtils.isEmpty(suffix)) {
+            landingPage = pageManager.getContainingPage(suffix);
+        }
+
+        String path = isFromGrid  ? containingPage.getPath() : landingPage.getPath();
+
         return path.concat(".html");
     }
 
     @Override
     public String getTruncatedText() {
         return this.truncatedText;
+    }
+
+    @Override
+    public String getSuffix() {
+        return request.getAttribute("parentPage") != null ?
+                String.valueOf(request.getAttribute("parentPage")) : StringUtils.EMPTY;
+
+    }
+    @PostConstruct
+    private void init() {
+        if(!StringUtils.isEmpty(textHTML)) {
+            truncatedText = htmlTruncator.truncate(textHTML, 20);
+        }
     }
 }

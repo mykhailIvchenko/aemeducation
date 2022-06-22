@@ -102,7 +102,7 @@
             <groupId>com.adobe.aem</groupId>
             <artifactId>uber-jar</artifactId>
             <!--<classifier>apis</classifier>-->
-            <version>6.5.12</version>
+            <version>6.5.8</version>
         </dependency>
     </dependencies>
 </project>

@@ -12,10 +12,10 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Model(
@@ -25,32 +25,35 @@ import java.util.stream.Collectors;
 )
 public class MultipleNewsImpl implements MultipleNews {
 
-    private List<String> resources = new ArrayList<>();
+    private List<String> resourcePaths;
     @SlingObject
     private ResourceResolver resourceResolver;
     @Self
     private SlingHttpServletRequest request;
 
-    private Integer limit;
-
     @Override
     public List<String> getResourcesPaths() {
-        int offset = StringUtils.isNumeric(request.getParameter("offset")) ? Integer.parseInt(request.getParameter("offset")) : 0;
-        return CollectionUtils.isEmpty(resources) ? Collections.emptyList() : resources.stream()
+
+        int offset = StringUtils.isNumeric(request.getParameter("offset")) ?
+                Integer.parseInt(request.getParameter("offset")) : 0;
+
+        return CollectionUtils.isEmpty(resourcePaths) ? Collections.emptyList() : resourcePaths.stream()
                 .skip(offset)
                 .limit(1)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Integer limit() {
-        return limit;
-    }
-
     @PostConstruct
     private void init() {
-        Resource resource = resourceResolver.getResource("/content/testaem/us/en/testPage/MultiplePage/pages");
-        if (resource == null) return;
-        resource.getChildren().forEach(i -> resources.add(i.getPath()));
+        Resource resource = resourceResolver.getResource("/content/testaem/us/en/MultiplePage");
+
+        if (resource == null) {
+            return;
+        }
+
+        resourcePaths = StreamSupport.stream(resource.getChildren().spliterator(), false)
+                .map(Resource::getPath)
+                .filter(r -> !r.contains("jcr:content"))
+                .collect(Collectors.toList());
     }
 }

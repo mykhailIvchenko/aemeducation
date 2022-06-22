@@ -1,12 +1,10 @@
 package com.testaem.aem.core.utills.impl;
 
-import com.testaem.aem.core.utills.Truncator;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HTMLTruncator implements Truncator {
+public class HTMLTruncator  {
 
     private static final Pattern WORDS_PATTERN = Pattern.compile("&.*?;|<.*?>|(\\w[\\w-]*)");
     private static final Pattern TAGS_PATTERN = Pattern.compile("<(/)?([^ ]+?)(?: | .*?)?(/)?>");
@@ -41,10 +39,13 @@ public class HTMLTruncator implements Truncator {
                     String tagName = tag.group(2).toLowerCase();
                     String selfClosing = tag.group(3);
                     if (closingTag != null) {
+
                         int i = openTags.indexOf(tagName);
-                        if (i != -1)
+
+                        if (i != -1) {
                             openTags = openTags.subList(i + 1, openTags.size());
-                        endTextPos = mWords.end();
+                            endTextPos = mWords.end();
+                        }
 
                     } else if (selfClosing == null && !HTML_FOR_SINGLETS.contains(tagName)) {
                         openTags.add(0, tagName);
@@ -54,8 +55,10 @@ public class HTMLTruncator implements Truncator {
             }
         }
 
-        if (curLength <= length)
+        if (curLength <= length){
             return html;
+        }
+
         StringBuilder out = new StringBuilder(html.substring(0, endTextPos)).append(end);
         for (String tag : openTags)
             out.append("</").append(tag).append(">");
@@ -63,7 +66,6 @@ public class HTMLTruncator implements Truncator {
         return out.toString();
     }
 
-    @Override
     public String truncate(String source, int limit) {
         return truncateHtmlWords(source, limit, "&nbsp;...");
     }

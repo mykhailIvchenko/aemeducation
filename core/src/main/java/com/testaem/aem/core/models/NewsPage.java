@@ -9,4 +9,6 @@ public interface NewsPage {
     String getPagePath();
 
     String getTruncatedText();
+
+    String getSuffix();
 }
