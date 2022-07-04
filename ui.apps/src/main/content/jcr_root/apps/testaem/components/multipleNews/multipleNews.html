@@ -1,0 +1,40 @@
+<div class="cmp-multiplePage" data-cmp-is="multiplePage"
+     data-sly-use.multiplePage="com.testaem.aem.core.models.MultipleNews"
+     data-sly-use.loadButton="testaem/htltemplates/button/button.html"
+     data-sly-use.mapper="${'com.testaem.aem.core.models.Mapper' @ values = ['parentPage', currentPage.path]}">
+
+    <div class="cmp-news-list" data-sly-repeat.resourcePath="${multiplePage.resourcesPaths}"
+         data-sly-resource="${resourcePath @ appendPath='/jcr:content/root/container/singlenewspage', requestAttributes=mapper.map, selectors=['fromGrid']}"></div>
+
+    <sly data-sly-call="${loadButton.template @ title = 'load more', id = 'loadMore'}"></sly>
+
+</div>
+
+
+<script>
+    (function () {
+        let offset = document.querySelectorAll('.cmp-singlePage').length;
+        document.querySelector('#loadMore').addEventListener('click', () => {
+            fetch('${resource.path @ appendPath='.html', context='scriptString'}' + '?offset=' + offset).then(response => response.text()).then((response => {
+                const tag = document.createElement('DIV');
+                tag.innerHTML = response;
+
+                if(tag.querySelectorAll('.cmp-singlePage').length === 0) {
+                    document.querySelector('#loadMore').hidden = true;
+                    return;
+                }
+
+                document.querySelector('.cmp-news-list').innerHTML += tag.querySelector('.cmp-news-list').innerHTML;
+
+                offset = document.querySelectorAll('.cmp-singlePage').length;
+
+            })).catch(() => {
+            });
+        });
+    })();
+</script>
+<script>
+    (function () {
+
+    })();
+</script>

@@ -27,7 +27,6 @@
     <modules>
         <module>all</module>
         <module>core</module>
-        <module>ui.frontend</module>
         <module>ui.apps</module>
         <module>ui.apps.structure</module>
         <module>ui.config</module>
@@ -115,8 +114,8 @@
                     <artifactId>frontend-maven-plugin</artifactId>
                     <version>1.7.6</version>
                     <configuration>
-                        <nodeVersion>v10.13.0</nodeVersion>
-                        <npmVersion>6.9.0</npmVersion>
+                        <nodeVersion>v16.0.0</nodeVersion>
+                        <npmVersion>7.10.0</npmVersion>
                     </configuration>
                     <executions>
                         <execution>
@@ -646,7 +645,7 @@ Bundle-DocURL:
             <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>uber-jar</artifactId>
-                <version>6.5.12</version>
+                <version>6.5.8</version>
                 <!--<classifier>apis</classifier>-->
                 <scope>provided</scope>
             </dependency>
@@ -793,6 +792,13 @@ Bundle-DocURL:
                 <version>1.0.1</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>1.12.2</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
