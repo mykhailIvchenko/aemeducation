@@ -45,7 +45,7 @@ public class MultipleNewsImpl implements MultipleNews {
 
     @PostConstruct
     private void init() {
-        Resource resource = resourceResolver.getResource("/content/testaem/us/en/MultiplePage");
+        Resource resource = resourceResolver.getResource("/content/testaem/us/en/KonohaPage");
 
         if (resource == null) {
             return;

@@ -3,7 +3,7 @@ package com.testaem.aem.core.models.impl;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.testaem.aem.core.models.NewsPage;
-import com.testaem.aem.core.utills.impl.HTMLTruncator;
+import com.testaem.aem.core.utills.trancator.html.HTMLTruncator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;

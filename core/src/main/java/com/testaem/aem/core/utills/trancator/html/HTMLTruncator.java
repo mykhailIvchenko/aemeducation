@@ -1,4 +1,4 @@
-package com.testaem.aem.core.utills.impl;
+package com.testaem.aem.core.utills.trancator.html;
 
 import java.util.*;
 import java.util.regex.Matcher;
