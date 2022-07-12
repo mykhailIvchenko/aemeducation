@@ -20,7 +20,6 @@ import java.util.Objects;
 public class RssFeedParser implements DataParser {
     static final String TITLE = "title";
     static final String DESCRIPTION = "description";
-
     static final String CHANNEL = "channel";
     static final String LANGUAGE = "language";
     static final String COPYRIGHT = "copyright";
@@ -30,12 +29,20 @@ public class RssFeedParser implements DataParser {
     static final String PUB_DATE = "pubDate";
     static final String GUID = "guid";
     static final String IMAGE = "image";
-
-
     static final String IMAGE_TAG = "<image>";
     private URL url;
 
     public RssFeedParser() {
+    }
+
+    @Override
+    public Feed parse(String url) {
+        try {
+            this.url = new URL(url);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return readFeed();
     }
 
     public Feed readFeed() {
@@ -70,6 +77,12 @@ public class RssFeedParser implements DataParser {
                                 isFeedHeader = false;
                                 feed = new Feed(title, link, description, language,
                                         copyright, pubdate);
+
+                                feed = new Feed.FeedBuilder(title,description, link)
+                                        .language(language)
+                                        .pubDate(pubdate)
+                                        .copyright(copyright)
+                                        .build();
                             }
                             event = eventReader.nextEvent();
                             break;
@@ -154,16 +167,6 @@ public class RssFeedParser implements DataParser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public Feed parse(String url) {
-        try {
-            this.url = new URL(url);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        return readFeed();
     }
 }
 

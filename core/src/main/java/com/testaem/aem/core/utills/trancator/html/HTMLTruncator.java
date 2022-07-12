@@ -11,7 +11,10 @@ public class HTMLTruncator  {
     private static final List<String> HTML_FOR_SINGLETS = Arrays.asList("br", "col", "link", "base", "img", "param", "area", "hr", "input");
 
     private static String truncateHtmlWords(String html, int length, String end) {
-        if (length <= 0) return end;
+
+        if (length <= 0) {
+            return end;
+        }
 
         Matcher mWords = WORDS_PATTERN.matcher(html);
         // Count non-HTML words and keep note of open tags
@@ -20,8 +23,11 @@ public class HTMLTruncator  {
         boolean tContinue = curLength < length;
         List<String> openTags = new ArrayList<>();
         while (tContinue) {
-            if (!mWords.find())
+
+            if (!mWords.find()) {
                 break;
+            }
+
             if (mWords.group(1) != null || mWords.group().startsWith("&")) {
                 // It's an actual non-HTML word
                 curLength += (mWords.group(1) == null ? 1 : mWords.group(1).length()); // Html encoding is one char

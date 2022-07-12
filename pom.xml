@@ -416,7 +416,6 @@ Bundle-DocURL:
                     </snapshots>
                 </repository>
             </repositories>
-
             <pluginRepositories>
                 <pluginRepository>
                     <id>adobe-public-releases</id>
@@ -798,7 +797,6 @@ Bundle-DocURL:
                 <artifactId>jsoup</artifactId>
                 <version>1.12.2</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

@@ -14,14 +14,10 @@ import java.util.function.Supplier;
 @Component(name = "sysUserResourceResolverProvider")
 public class ResourceResolverProviderSupplier implements Supplier<ResourceResolver> {
 
-    private final Logger logger = LoggerFactory.getLogger(ResourceResolverProviderSupplier.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceResolverProviderSupplier.class);
+    private static final String SYS_USER_NAME = "sys";
     @Reference
     private ResourceResolverFactory factory;
-    private static final String SYS_USER_NAME = "sys";
-
-    public ResourceResolverProviderSupplier() {
-    }
 
     @Override
     public ResourceResolver get() {
@@ -29,6 +25,7 @@ public class ResourceResolverProviderSupplier implements Supplier<ResourceResolv
             return factory
                     .getServiceResourceResolver(Map.of(factory.SUBSERVICE, SYS_USER_NAME));
         } catch (LoginException e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }

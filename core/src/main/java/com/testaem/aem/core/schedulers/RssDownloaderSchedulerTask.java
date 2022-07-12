@@ -22,26 +22,21 @@ import java.util.List;
 public class RssDownloaderSchedulerTask implements Runnable {
 
     private static final String URL = "https://mangaplanet.com/feed/";
-    private final Logger logger = LoggerFactory.getLogger(RssDownloaderSchedulerTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(RssDownloaderSchedulerTask.class);
 
     @Reference
     private Scheduler scheduler;
     @Reference
     private NewsReaderService newsReaderService;
     @Reference
-    ResourceBuilderService<Feed> resourceBuilderService;
+    private ResourceBuilderService<Feed> resourceBuilderService;
     private int schedulerID;
 
 
 
     @ObjectClassDefinition(name = "A scheduled news reader task",
-            description = "time to time download RSS feed from the web resources")
-    public static @interface RssNewsSchedulerConfig {
-        /**
-         * schedulerName
-         *
-         * @return String name
-         */
+            description = "schedule job for download RSS feed from the web resources")
+    public @interface RssNewsSchedulerConfig {
         @AttributeDefinition(name = "Scheduler name", description = "Scheduler name", type = AttributeType.STRING)
         public String schedulerName() default "Rss downloader scheduler";
 

@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Model(
         adaptables = SlingHttpServletRequest.class,
@@ -24,7 +25,7 @@ import java.util.List;
 )
 public class SinglePageNewsImpl implements NewsPage {
 
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private final HTMLTruncator htmlTruncator = new HTMLTruncator();
 
     @ValueMapValue
@@ -62,7 +63,7 @@ public class SinglePageNewsImpl implements NewsPage {
 
     @Override
     public String getDate() {
-        return this.date == null ? simpleDateFormat.format(new Date()) : simpleDateFormat.format(date);
+        return this.date == null ? SIMPLE_DATE_FORMAT.format(new Date()) : SIMPLE_DATE_FORMAT.format(date);
     }
 
     public String getPagePath() {
@@ -83,7 +84,9 @@ public class SinglePageNewsImpl implements NewsPage {
             landingPage = pageManager.getContainingPage(suffix);
         }
 
-        String path = isFromGrid  ? containingPage.getPath() : landingPage.getPath();
+        String path = (isFromGrid  || Objects.isNull(landingPage))
+                ? containingPage.getPath()
+                : landingPage.getPath();
 
         return path.concat(".html");
     }
@@ -101,7 +104,7 @@ public class SinglePageNewsImpl implements NewsPage {
     }
     @PostConstruct
     private void init() {
-        if(!StringUtils.isEmpty(textHTML)) {
+        if(StringUtils.isNotEmpty(textHTML)) {
             truncatedText = htmlTruncator.truncate(textHTML, 20);
         }
     }

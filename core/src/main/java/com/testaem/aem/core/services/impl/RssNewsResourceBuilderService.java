@@ -9,6 +9,7 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.testaem.aem.core.services.ResourceBuilderService;
 import com.testaem.aem.core.utills.parser.Feed;
 import com.testaem.aem.core.utills.parser.FeedMessage;
+import com.testaem.aem.core.utills.path.PathConstants;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -26,18 +27,18 @@ import java.util.stream.Collectors;
 
 @Component(name = "rssNewsResourceBuilderService", service = ResourceBuilderService.class)
 public class RssNewsResourceBuilderService implements ResourceBuilderService<Feed> {
-    private static final String PAGES_FOLDER = "/content/testProject/us/en/KonohaPage";
-    private static final String LAYOUT_CONFIG = "/conf/testaem/settings/wcm/templates/narutopage";
     private static final Logger LOGGER = LoggerFactory.getLogger(RssNewsResourceBuilderService.class);
     @Reference
     private Supplier<ResourceResolver> sysUserResourceResolverProvider;
-    private final ResourceResolver resourceResolver = sysUserResourceResolverProvider.get();
+    private ResourceResolver resourceResolver;
 
 
     @Override
     public List<Resource> build(Feed feed) {
 
-        Resource aggregatorPage = resourceResolver.getResource(PAGES_FOLDER);
+        resourceResolver = sysUserResourceResolverProvider.get();
+
+        Resource aggregatorPage = resourceResolver.getResource(PathConstants.MULTIPLE_PAGE.getPath());
 
         if (Objects.isNull(aggregatorPage)) {
             return null;
@@ -55,6 +56,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
     }
 
     private Resource createPage(FeedMessage message, Resource parentResource) {
+        resourceResolver = sysUserResourceResolverProvider.get();
         Resource contentPage;
         LOGGER.info("Creating page with guid: " + message.getGuid());
         try {
@@ -65,6 +67,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
             contentPage = resourceResolver.create(container, "contentpage", prepareParamMap(Type.CONTENT_PAGE, message));
             LOGGER.info("page with id = " + message.getGuid() + " has been created");
         } catch (PersistenceException e) {
+            LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return contentPage;
@@ -77,7 +80,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
 
             case CONTENT:
                 return Map.of(
-                        FMConstants.CQ_TEMPLATE_NODETYPE, LAYOUT_CONFIG,
+                        FMConstants.CQ_TEMPLATE_NODETYPE, PathConstants.LAYOUT_CONFIG.getPath(),
                         JcrConstants.JCR_PRIMARYTYPE, JcrResourceConstants.CQ_PAGE_CONTENT,
                         JcrConstants.JCR_TITLE, message.getTitle(),
                         AbstractSchemaMapper.CQ_RESOURCE_TYPE, "testaem/components/page"
@@ -104,7 +107,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
         return new HashMap<>();
     }
 
-    enum Type {
+   private enum Type {
         PAGE, CONTENT, CONTAINER_NODE, ROOT_NODE, CONTENT_PAGE
     }
 }

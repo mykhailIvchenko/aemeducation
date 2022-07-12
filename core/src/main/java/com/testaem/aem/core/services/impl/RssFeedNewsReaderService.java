@@ -12,10 +12,6 @@ public class RssFeedNewsReaderService implements NewsReaderService {
     @Reference
     private DataParser rssFeedDataParser;
 
-
-    public RssFeedNewsReaderService() {
-    }
-
     @Override
     public Feed read(String url) {
         return rssFeedDataParser.parse(url);
