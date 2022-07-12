@@ -1,15 +1,11 @@
 package com.testaem.aem.core.utills.path;
 
-public enum PathConstants {
+public class PathConstants {
 
-    MULTIPLE_PAGE("/content/testaem/us/en/KonohaPage"), LAYOUT_CONFIG("/conf/testaem/settings/wcm/templates/narutopage");
+    private PathConstants() {
 
-    final String path;
-    PathConstants(String path) {
-        this.path = path;
     }
 
-    public String getPath() {
-        return this.path;
-    }
+    public static final String MULTIPLE_PAGE = "/content/testaem/us/en/KonohaPage";
+    public static final String LAYOUT_CONFIG = "/conf/testaem/settings/wcm/templates/narutopage";
 }

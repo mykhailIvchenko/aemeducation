@@ -38,7 +38,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
 
         resourceResolver = sysUserResourceResolverProvider.get();
 
-        Resource aggregatorPage = resourceResolver.getResource(PathConstants.MULTIPLE_PAGE.getPath());
+        Resource aggregatorPage = resourceResolver.getResource(PathConstants.MULTIPLE_PAGE);
 
         if (Objects.isNull(aggregatorPage)) {
             return null;
@@ -80,7 +80,7 @@ public class RssNewsResourceBuilderService implements ResourceBuilderService<Fee
 
             case CONTENT:
                 return Map.of(
-                        FMConstants.CQ_TEMPLATE_NODETYPE, PathConstants.LAYOUT_CONFIG.getPath(),
+                        FMConstants.CQ_TEMPLATE_NODETYPE, PathConstants.LAYOUT_CONFIG,
                         JcrConstants.JCR_PRIMARYTYPE, JcrResourceConstants.CQ_PAGE_CONTENT,
                         JcrConstants.JCR_TITLE, message.getTitle(),
                         AbstractSchemaMapper.CQ_RESOURCE_TYPE, "testaem/components/page"

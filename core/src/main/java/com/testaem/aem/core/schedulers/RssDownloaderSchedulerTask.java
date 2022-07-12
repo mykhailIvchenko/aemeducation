@@ -22,7 +22,7 @@ import java.util.List;
 public class RssDownloaderSchedulerTask implements Runnable {
 
     private static final String URL = "https://mangaplanet.com/feed/";
-    private static final Logger logger = LoggerFactory.getLogger(RssDownloaderSchedulerTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RssDownloaderSchedulerTask.class);
 
     @Reference
     private Scheduler scheduler;
@@ -61,9 +61,9 @@ public class RssDownloaderSchedulerTask implements Runnable {
 
         schedulerID = config.schedulerName().hashCode();
         addScheduler(config);
-        logger.info("Scheduler Job '{}' activated", schedulerID);
+        LOGGER.info("Scheduler Job '{}' activated", schedulerID);
 
-        logger.info("expression: " + config.scheduler_expression() + "\n " +
+        LOGGER.info("expression: " + config.scheduler_expression() + "\n " +
                 "Enabled: " + config.serviceEnabled() +"\n " +
                 "Concurrent mode:  " + config.scheduler_concurrent());
     }
@@ -71,7 +71,7 @@ public class RssDownloaderSchedulerTask implements Runnable {
     @Deactivate
     protected void deactivate(RssNewsSchedulerConfig config) {
         removeScheduler();
-        logger.info("Scheduler Job '{}' deactivated", schedulerID);
+        LOGGER.info("Scheduler Job '{}' deactivated", schedulerID);
     }
 
     @Modified
@@ -87,14 +87,14 @@ public class RssDownloaderSchedulerTask implements Runnable {
             sopts.name(String.valueOf(schedulerID));
             sopts.canRunConcurrently(false);
             scheduler.schedule(this, sopts);
-            logger.info("Scheduler added succesfully");
+            LOGGER.info("Scheduler added succesfully");
         } else {
-            logger.info("RssDownloaderSchedulerTask is Disabled, no scheduler job created");
+            LOGGER.info("RssDownloaderSchedulerTask is Disabled, no scheduler job created");
         }
     }
 
     private void removeScheduler() {
-        logger.info("Removing Scheduler Job '{}'", schedulerID);
+        LOGGER.info("Removing Scheduler Job '{}'", schedulerID);
         scheduler.unschedule(String.valueOf(schedulerID));
     }
 

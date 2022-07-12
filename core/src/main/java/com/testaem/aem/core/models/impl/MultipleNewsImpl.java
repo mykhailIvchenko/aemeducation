@@ -51,7 +51,7 @@ public class MultipleNewsImpl implements MultipleNews {
 
     @PostConstruct
     private void init() {
-        Resource resource = resourceResolver.getResource(PathConstants.MULTIPLE_PAGE.getPath());
+        Resource resource = resourceResolver.getResource(PathConstants.MULTIPLE_PAGE);
 
         if (resource == null) {
             return;
